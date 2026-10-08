@@ -1,0 +1,32 @@
+{
+  "name": "rivus",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "setup": "tsx scripts/setup-wallets.mts",
+    "smoke": "tsx --env-file=.env.local scripts/smoke.mts",
+    "bench": "tsx scripts/bench-fractal.mts"
+  },
+  "dependencies": {
+    "mppx": "^0.11.0",
+    "next": "16.3.7",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "viem": "^2.57.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.3.7",
+    "tailwindcss": "^4",
+    "tsx": "^4.23.15",
+    "typescript": "^5"
+  }
+}
