@@ -132,6 +132,9 @@ async function run(renderUrl: URL, stop: AbortSignal, send: Send): Promise<void>
   }
 }
 
+// A failed network call says only "fetch failed"; the reason is on its cause.
 function messageOf(error: unknown): string {
-  return error instanceof Error ? error.message : String(error);
+  if (!(error instanceof Error)) return String(error);
+  const cause = error.cause instanceof Error ? error.cause.message : null;
+  return cause ? `${error.message}: ${cause}` : error.message;
 }
