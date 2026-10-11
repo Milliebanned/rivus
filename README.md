@@ -40,7 +40,6 @@ Tempo is a payments-first blockchain built for stablecoin settlement at high thr
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — technical design
 - [`docs/DESIGN.md`](docs/DESIGN.md) — UX and demo flow
 - [`docs/TASKS.md`](docs/TASKS.md) — build checklist
-- [`memory.md`](memory.md) — decision log
 
 ## Status
 
