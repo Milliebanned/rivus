@@ -47,7 +47,7 @@ export async function GET(request: Request): Promise<Response> {
         return end();
       }
 
-      run(new URL("/api/render", request.url), stop.signal, send).finally(() => {
+      run(renderUrl(request), stop.signal, send).finally(() => {
         runs.delete(runId);
         end();
       });
@@ -64,6 +64,14 @@ export async function GET(request: Request): Promise<Response> {
       Connection: "keep-alive",
     },
   });
+}
+
+// Where the provider's endpoint is, as seen from this server. Behind a hosting proxy the request's own
+// URL can carry an address the server can't reach itself on, so a hosted server calls itself directly
+// on the port it was given. Locally the request's URL is already right.
+function renderUrl(request: Request): URL {
+  const port = process.env.PORT;
+  return new URL("/api/render", port ? `http://127.0.0.1:${port}` : request.url);
 }
 
 // Stop: abort the run's stream; the GET handler above then closes the channel and reports the settlement.
