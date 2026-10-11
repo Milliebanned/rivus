@@ -27,7 +27,7 @@ A single, working, two-sided example of the above, rather than a general-purpose
 - A provider endpoint that performs real, CPU-bound compute (a tile-based fractal render) and charges per second of actual work performed.
 - A buyer-facing page that starts a render, shows it filling in live, shows a live running cost meter, and can stop the job at any time for an instant refund of the unused balance.
 - A visible link to the settled transaction on Tempo's public explorer, so the payment is verifiably real, not simulated.
-- A visible "for developers" panel showing the actual integration code, so it's clear this is a reusable pattern and not a one-off app.
+- A visible "for developers" panel showing the actual integration code, so it's clear the demo runs on an installable package (`rivus-meter`) and is not a one-off app.
 
 ## Explicitly out of scope for the hackathon build
 

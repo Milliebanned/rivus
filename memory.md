@@ -40,9 +40,20 @@ Other rule points that affect the submission:
 - Section 12: all content must be in English.
 - Section 7: one project submission per team.
 
+## Why Rivus became a package (Oct 10)
+
+Until two days before the deadline, the developer section told people to install Tempo's `mppx` and `viem` and described Rivus as "a pattern on top of Tempo's own SDK, so there is nothing of ours to deploy." That was accurate and it was the problem: a developer following the steps used nothing of ours, and a judge could fairly read the project as Tempo's SDK plus a demo. The logic that makes per-second billing work (timing the work, converting time to charges, the minimum charge, safe stopping, the cap, the refund) existed, but inside the demo's route files, where nobody else could use it.
+
+Decision: Rivus is a product developers install. That logic was moved into `rivus-meter` (`packages/rivus`) with a meter for providers, a buyer for agents and a `rivus` command, and the demo was rebuilt on it. The earlier decision not to rebuild Tempo's payment channel still stands: the package is built on `mppx`. The line is "Tempo provides the channel, Rivus provides the meter."
+
+Rule that follows: no page, document or pitch material should tell a developer to install Tempo's SDK or call Rivus a pattern. The install is `rivus-meter`; Tempo's SDK is what it is built on.
+
+The buyer's price limit (`maxPrice`) was added at the same time, in answer to "what if someone doesn't want to pay that much per second": the provider's price is quoted before any money moves, and a buyer with a limit refuses a dearer provider at that point.
+
 ## Standing constraints for this project
 
 - No AI/assistant attribution anywhere — not in commits, not in code comments, not in any document, not as a co-author or contributor credit of any kind.
 - 13-day build window from planning (Sept 29, 2026) to the Oct 12, 2026 submission deadline — every scope decision should be checked against whether it's achievable in that window.
 - No custom smart contract — this is a deliberate scope reduction, not an oversight.
+- Rivus is presented as the `rivus-meter` package, never as "install Tempo's SDK" or "a pattern".
 - Testnet only (Tempo Moderato, chain ID 42431) for the hackathon build.

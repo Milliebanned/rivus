@@ -1,6 +1,6 @@
 "use client";
 
-import { useImperativeHandle, useRef, type Ref } from "react";
+import { useImperativeHandle, useRef, type ReactNode, type Ref } from "react";
 import { DEFAULT_SPEC, type TileRect } from "@/lib/fractal";
 
 export type CanvasHandle = {
@@ -11,7 +11,15 @@ export type CanvasHandle = {
 
 const { width, height, tileSize } = DEFAULT_SPEC;
 
-export function Canvas({ ref }: { ref: Ref<CanvasHandle> }) {
+type Props = {
+  ref: Ref<CanvasHandle>;
+  // Shown centred over the empty grid before any tile has arrived.
+  overlay?: ReactNode;
+  // Rendered inside the frame, under the image.
+  footer?: ReactNode;
+};
+
+export function Canvas({ ref, overlay, footer }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useImperativeHandle(ref, () => ({
@@ -28,15 +36,23 @@ export function Canvas({ ref }: { ref: Ref<CanvasHandle> }) {
 
   // The faint grid marks the tiles still to be computed; finished tiles paint over it.
   return (
-    <div
-      className="overflow-hidden rounded-lg border border-white/10 bg-[#0d1117]"
-      style={{
-        backgroundImage:
-          "linear-gradient(to right, rgb(255 255 255 / 0.05) 1px, transparent 1px), linear-gradient(to bottom, rgb(255 255 255 / 0.05) 1px, transparent 1px)",
-        backgroundSize: `${(tileSize / width) * 100}% ${(tileSize / height) * 100}%`,
-      }}
-    >
-      <canvas ref={canvasRef} width={width} height={height} className="block h-auto w-full" />
+    <div className="overflow-hidden rounded-lg border border-white/10 bg-[#0d1117]">
+      <div
+        className="relative"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, rgb(255 255 255 / 0.05) 1px, transparent 1px), linear-gradient(to bottom, rgb(255 255 255 / 0.05) 1px, transparent 1px)",
+          backgroundSize: `${(tileSize / width) * 100}% ${(tileSize / height) * 100}%`,
+        }}
+      >
+        <canvas ref={canvasRef} width={width} height={height} className="block h-auto w-full" />
+        {overlay && (
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 p-6 text-center">
+            {overlay}
+          </div>
+        )}
+      </div>
+      {footer}
     </div>
   );
 }

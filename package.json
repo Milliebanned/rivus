@@ -3,12 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "predev": "npm run build:sdk",
     "dev": "next dev",
+    "prebuild": "npm run build:sdk",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "setup": "tsx scripts/setup-wallets.mts",
-    "smoke": "tsx --env-file=.env.local scripts/smoke.mts",
+    "build:sdk": "npm --prefix packages/rivus run build",
+    "setup": "tsx packages/rivus/src/cli.ts init",
+    "smoke": "tsx packages/rivus/src/cli.ts pay http://localhost:3000/api/render",
     "bench": "tsx scripts/bench-fractal.mts"
   },
   "dependencies": {
@@ -28,5 +31,8 @@
     "tailwindcss": "^4",
     "tsx": "^4.23.15",
     "typescript": "^5"
+  },
+  "engines": {
+    "node": ">=20.12"
   }
 }

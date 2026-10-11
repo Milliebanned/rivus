@@ -1,11 +1,9 @@
-import { tempo } from "mppx/client";
+import { RivusError, addressOf, balanceOf, parseAmount } from "rivus-meter";
+import { createBuyer, type Session } from "rivus-meter/client";
 import { DEPOSIT } from "@/lib/pricing";
-import { EXPLORER_URL, accountFromEnv, clientFor, formatPathUsd, parsePathUsd, pathUsdBalance } from "@/lib/tempo";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
-
-const CLOSE_RETRY_DELAY_MS = 2_000;
 
 // One buyer key, so one render at a time. Kept on globalThis so Stop still finds the run after a dev reload.
 const globalForAgent = globalThis as unknown as { rivusRuns?: Map<string, AbortController> };
@@ -76,65 +74,53 @@ export async function POST(request: Request): Promise<Response> {
 }
 
 async function run(renderUrl: URL, stop: AbortSignal, send: Send): Promise<void> {
-  let session: ReturnType<typeof tempo.session.manager> | undefined;
+  let session: Session<Record<string, unknown>> | undefined;
 
   try {
-    const agent = accountFromEnv("AGENT_PRIVATE_KEY");
-    const client = clientFor(agent);
+    const buyer = createBuyer({ privateKey: process.env.AGENT_PRIVATE_KEY });
 
-    const balance = await pathUsdBalance(client, agent.address);
-    if (balance < parsePathUsd(DEPOSIT)) {
-      send("failed", {
-        message: `The buyer wallet holds ${formatPathUsd(balance)} pathUSD, less than the ${DEPOSIT} pathUSD deposit. Run "npm run setup" to refill it from the testnet faucet.`,
-      });
-      return;
+    // Both balances as they stood before the channel opened, so the page can show what the run changed.
+    const provider = addressOf(process.env.PROVIDER_PRIVATE_KEY, "PROVIDER_PRIVATE_KEY");
+    const [agentBalance, providerBalance] = await Promise.all([balanceOf(buyer.address), balanceOf(provider)]);
+
+    session = await buyer.open(renderUrl, {
+      maxSpend: DEPOSIT,
+      signal: stop,
+      onTraffic: (event) => send("log", event),
+    });
+    send("started", { agent: agentBalance.toString(), provider: providerBalance.toString() });
+
+    for await (const unit of session) {
+      send("tile", { ...unit.value, cumulative: parseAmount(unit.spent).toString() });
     }
 
-    session = tempo.session.manager({ account: agent, client, maxDeposit: DEPOSIT });
-
-    // The stream only becomes abortable once the channel is open: cutting the open short could
-    // leave a deposit in escrow with no channel on this side to close it.
-    const stream = new AbortController();
-    const events = await session.sse(renderUrl, { signal: stream.signal });
-    if (stop.aborted) stream.abort();
-    else stop.addEventListener("abort", () => stream.abort(), { once: true });
-
-    for await (const event of events) {
-      send("tile", { ...JSON.parse(event), cumulative: session.cumulative.toString() });
+    if (session.outcome === "budget") {
+      send("failed", {
+        message: `The ${DEPOSIT} pathUSD deposit ran out before the render finished. The render stopped there and the channel settled for the work done.`,
+      });
     }
   } catch (error) {
     if (!stop.aborted) {
-      const depositSpent = messageOf(error).includes("exceeds local maxDeposit");
+      const underfunded = error instanceof RivusError && error.code === "insufficient_funds";
       send("failed", {
-        message: depositSpent
-          ? `The ${DEPOSIT} pathUSD deposit ran out before the render finished. The render stopped there and the channel settled for the work done.`
-          : messageOf(error),
+        message: underfunded ? `${messageOf(error)} Run "npm run setup" to refill it from the testnet faucet.` : messageOf(error),
       });
     }
   }
 
-  if (!session?.opened) return;
+  if (!session?.channelId) return;
 
   try {
-    const receipt = await closeWithRetry(session);
+    const receipt = await session.close();
     send("settled", {
-      channelId: receipt?.channelId,
-      settled: receipt?.acceptedCumulative ?? session.cumulative.toString(),
-      deposit: parsePathUsd(DEPOSIT).toString(),
-      txUrl: receipt?.txHash ? `${EXPLORER_URL}/tx/${receipt.txHash}` : null,
+      channelId: receipt.channelId,
+      settled: parseAmount(receipt.paid).toString(),
+      deposit: parseAmount(receipt.deposit).toString(),
+      txUrl: receipt.txUrl,
       stopped: stop.aborted,
     });
   } catch (error) {
     send("failed", { message: `Could not close the payment channel: ${messageOf(error)}` });
-  }
-}
-
-async function closeWithRetry(session: ReturnType<typeof tempo.session.manager>) {
-  try {
-    return await session.close();
-  } catch {
-    await new Promise((resolve) => setTimeout(resolve, CLOSE_RETRY_DELAY_MS));
-    return session.close();
   }
 }
 
