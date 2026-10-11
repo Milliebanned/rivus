@@ -2,6 +2,8 @@
 
 Pay-per-second billing infrastructure for Tempo, demonstrated with a live compute-rental app.
 
+**Live:** https://rivus.milliebanned.xyz · **Package:** [`rivus-meter` on npm](https://www.npmjs.com/package/rivus-meter) · **Docs:** https://rivus.milliebanned.xyz/docs
+
 ## What this is
 
 Rivus lets any compute or API provider charge customers by the second — automatically, with an instant refund for whatever isn't used — instead of flat fees or after-the-fact invoices. It's built directly on Tempo's Machine Payments Protocol (MPP), which already provides the underlying payment-channel mechanics (opening a channel, signing off-chain vouchers, settling on-chain, refunding unused balance). Tempo provides the channel; Rivus provides the meter.
