@@ -96,7 +96,7 @@ export function Story() {
         ))}
       </div>
 
-      <div className="grid gap-8 p-6 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-10 lg:p-10">
+      <div className="grid grid-cols-1 gap-8 p-6 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-10 lg:p-10">
         <div key={chapter} className="[animation:fade-up_0.5s_ease-out_both] flex flex-col justify-center">
           <p className="font-mono text-xs text-amber-300">
             0{chapter + 1} / 0{CHAPTERS.length}
@@ -117,7 +117,7 @@ function OldWays() {
       {OLD_WAYS.map((way, index) => (
         <div
           key={way.name}
-          className="[animation:fade-up_0.5s_ease-out_both] flex items-center justify-between rounded-xl border border-white/10 bg-white/[0.03] px-5 py-4"
+          className="[animation:fade-up_0.5s_ease-out_both] flex flex-wrap items-center justify-between gap-x-4 gap-y-1 rounded-xl border border-white/10 bg-white/[0.03] px-5 py-4"
           style={{ animationDelay: `${index * 120}ms` }}
         >
           <span className="text-zinc-200">{way.name}</span>
@@ -127,7 +127,7 @@ function OldWays() {
           </span>
         </div>
       ))}
-      <div className="flex items-center justify-between rounded-xl border border-amber-300/30 bg-amber-300/[0.06] px-5 py-4">
+      <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 rounded-xl border border-amber-300/30 bg-amber-300/[0.06] px-5 py-4">
         <span className="text-zinc-50">Per-second, settled on-chain</span>
         <span className="flex items-center gap-3 text-sm text-amber-200">
           Exact, automatic, checkable
@@ -145,7 +145,7 @@ const ESCROW_LINES = ["", "1.000000 locked", "1.000000 locked", "settling", "0.0
 // Buyer and provider above, the chain below; dots show what is moving in the current chapter.
 function Diagram({ chapter }: { chapter: number }) {
   return (
-    <div className="relative aspect-[16/10] select-none text-xs sm:text-sm">
+    <div className="relative aspect-[4/3] select-none text-xs sm:aspect-[16/10] sm:text-sm">
       <Node side="left" name="Buyer agent" line={BUYER_LINES[chapter]} tone={chapter === 4 ? "text-emerald-300" : "text-zinc-400"} lit={chapter === 1 || chapter === 2} />
       <Node side="right" name="Provider" line={PROVIDER_LINES[chapter]} tone={chapter === 4 ? "text-amber-300" : "text-zinc-400"} lit={chapter === 2 || chapter === 3} />
 
@@ -162,13 +162,13 @@ function Diagram({ chapter }: { chapter: number }) {
           Tempo <span className="hidden sm:inline">· TIP-20 channel</span>
         </span>
         <span
-          className={`rounded-lg border px-3 py-1.5 font-mono tabular-nums transition-colors duration-500 ${
+          className={`rounded-lg border px-2 py-1 font-mono tabular-nums sm:px-3 sm:py-1.5 transition-colors duration-500 ${
             chapter === 4 ? "border-white/10 text-zinc-500" : "border-amber-300/40 bg-amber-300/[0.07] text-amber-200"
           }`}
         >
           escrow {ESCROW_LINES[chapter]}
         </span>
-        <span className="text-zinc-500">{chapter >= 3 ? "1 settlement tx" : "pathUSD"}</span>
+        <span className="hidden text-zinc-500 sm:inline">{chapter >= 3 ? "1 settlement tx" : "pathUSD"}</span>
       </div>
     </div>
   );
@@ -177,7 +177,7 @@ function Diagram({ chapter }: { chapter: number }) {
 function Node({ side, name, line, tone, lit }: { side: "left" | "right"; name: string; line: string; tone: string; lit: boolean }) {
   return (
     <div
-      className={`absolute top-[6%] flex h-[34%] w-[27%] flex-col justify-center rounded-xl border bg-zinc-950 px-[3%] transition-colors duration-500 ${
+      className={`absolute top-[6%] flex h-[34%] w-[30%] flex-col justify-center rounded-xl border bg-zinc-950 px-[3%] transition-colors duration-500 ${
         side === "left" ? "left-[4%]" : "right-[4%]"
       } ${lit ? "border-amber-300/40 shadow-[0_0_40px_-12px_rgba(251,191,36,0.5)]" : "border-white/10"}`}
     >
@@ -189,8 +189,8 @@ function Node({ side, name, line, tone, lit }: { side: "left" | "right"; name: s
 
 function Lane({ top, label, active, direction, color }: { top: string; label: string; active: boolean; direction: "left" | "right"; color: string }) {
   return (
-    <div className={`absolute inset-x-[33%] h-px transition-colors duration-500 ${active ? "bg-white/20" : "bg-white/[0.06]"}`} style={{ top }}>
-      <span className={`absolute left-1/2 top-1.5 -translate-x-1/2 text-[11px] transition-colors duration-500 ${active ? "text-zinc-400" : "text-zinc-700"}`}>
+    <div className={`absolute inset-x-[35%] h-px sm:inset-x-[33%] transition-colors duration-500 ${active ? "bg-white/20" : "bg-white/[0.06]"}`} style={{ top }}>
+      <span className={`absolute left-1/2 top-1.5 -translate-x-1/2 whitespace-nowrap text-[11px] transition-colors duration-500 ${active ? "text-zinc-400" : "text-zinc-700"}`}>
         {direction === "right" ? `${label} →` : `← ${label}`}
       </span>
       {active &&

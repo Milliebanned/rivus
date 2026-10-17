@@ -42,7 +42,7 @@ export function Calculator() {
         />
       </div>
 
-      <div className="mt-8 grid gap-4 sm:grid-cols-2">
+      <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
         <Outcome name="Flat fee or prepaid" paid={BOOKED_COST} back={0} share={100} muted />
         <Outcome name="Rivus, per second" paid={paid} back={BOOKED_COST - paid} share={share} />
       </div>

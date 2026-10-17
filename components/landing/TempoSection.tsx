@@ -36,7 +36,7 @@ export function TempoSection() {
         <div className="relative overflow-hidden rounded-[28px] border border-white/10 bg-gradient-to-br from-emerald-300/[0.07] via-white/[0.02] to-amber-300/[0.06]">
           <div className="pointer-events-none absolute -right-40 -top-40 h-[420px] w-[420px] rounded-full bg-emerald-400/10 blur-[110px]" />
 
-          <div className="grid items-center gap-10 p-8 lg:grid-cols-[minmax(0,6fr)_minmax(0,5fr)] lg:p-14">
+          <div className="grid grid-cols-1 items-center gap-10 p-8 lg:grid-cols-[minmax(0,6fr)_minmax(0,5fr)] lg:p-14">
             <div>
               <p className="font-mono text-xs uppercase tracking-[0.18em] text-emerald-300">Built on Tempo</p>
               <h2 className="mt-4 text-3xl font-semibold tracking-[-0.02em] text-zinc-50 sm:text-[44px] sm:leading-[1.08]">
@@ -54,7 +54,7 @@ export function TempoSection() {
             <Stack />
           </div>
 
-          <div className="grid gap-px border-t border-white/10 bg-white/10 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-px border-t border-white/10 bg-white/10 sm:grid-cols-2">
             {GIVES.map((item, index) => (
               <div key={item.tempo} className="bg-[#0a0c10] p-6 lg:p-8">
                 <p className="flex items-center gap-3 text-zinc-50">

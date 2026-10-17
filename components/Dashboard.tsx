@@ -158,7 +158,7 @@ export function Dashboard({ embedded = false }: { embedded?: boolean }) {
         </span>
       </header>
 
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_380px]">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_380px]">
         <div className="flex flex-col gap-4">
           <Canvas
             ref={canvas}

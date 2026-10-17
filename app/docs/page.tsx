@@ -55,7 +55,7 @@ export default function Docs() {
         </div>
       </header>
 
-      <div className="mx-auto grid max-w-7xl gap-12 px-6 py-12 lg:grid-cols-[230px_minmax(0,1fr)]">
+      <div className="mx-auto grid grid-cols-1 max-w-7xl gap-12 px-6 py-12 lg:grid-cols-[230px_minmax(0,1fr)]">
         <nav className="doc-screen hidden lg:block">
           <ol className="sticky top-28 space-y-1 text-sm">
             <li className="pb-3 font-mono text-xs uppercase tracking-[0.18em] text-zinc-500">Contents</li>

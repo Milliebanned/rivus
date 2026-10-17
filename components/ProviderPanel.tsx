@@ -21,7 +21,7 @@ export function ProviderPanel({ title, party, explorer, liveLabel, liveValue, ba
 
   return (
     <div className="space-y-1.5 whitespace-nowrap py-3 font-mono text-xs tabular-nums">
-      <div className="flex items-baseline justify-between gap-3">
+      <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
         <span className="flex items-baseline gap-2.5">
           <span className="font-sans uppercase tracking-wider text-zinc-500">{title}</span>
           {party && explorer && (
@@ -40,7 +40,7 @@ export function ProviderPanel({ title, party, explorer, liveLabel, liveValue, ba
           {party ? formatBalance(party.balance) : "—"}
         </span>
       </div>
-      <div className="flex items-baseline justify-between gap-3">
+      <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
         <span className="text-zinc-100">
           <span className="font-sans text-zinc-500">{liveLabel} </span>
           {liveValue}

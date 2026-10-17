@@ -64,7 +64,7 @@ export function LiveLedger() {
         </dl>
 
         {ledger && ledger.recent.length > 0 && (
-          <ul className="grid gap-x-8 border-t border-white/10 py-4 font-mono text-xs tabular-nums text-zinc-500 sm:grid-cols-2 lg:grid-cols-4">
+          <ul className="grid grid-cols-1 gap-x-8 border-t border-white/10 py-4 font-mono text-xs tabular-nums text-zinc-500 sm:grid-cols-2 lg:grid-cols-4">
             {ledger.recent.map((item) => (
               <li key={item.txHash} className="whitespace-nowrap py-1">
                 <a

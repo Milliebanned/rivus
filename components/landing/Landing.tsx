@@ -115,7 +115,7 @@ export function Landing() {
         <StreamField className="absolute inset-0 -z-10 h-full w-full [mask-image:linear-gradient(to_bottom,transparent,black_25%,black_80%,transparent)]" />
         <div className="absolute left-1/2 top-0 -z-10 h-[520px] w-[900px] -translate-x-1/2 rounded-full bg-amber-400/[0.07] blur-[120px]" />
 
-        <div className="mx-auto grid min-h-[calc(100svh-4rem)] max-w-6xl items-center gap-14 px-6 py-16 lg:grid-cols-[minmax(0,6fr)_minmax(0,5fr)]">
+        <div className="mx-auto grid grid-cols-1 min-h-[calc(100svh-4rem)] max-w-6xl items-center gap-14 px-6 py-16 lg:grid-cols-[minmax(0,6fr)_minmax(0,5fr)]">
           <div>
             <p className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 font-mono text-xs text-zinc-400 [animation:fade-up_0.6s_ease-out_both]">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
@@ -186,7 +186,7 @@ export function Landing() {
         </p>
       </Section>
 
-      <div className="mx-auto grid max-w-6xl gap-4 px-6 lg:grid-cols-3">
+      <div className="mx-auto grid grid-cols-1 max-w-6xl gap-4 px-6 lg:grid-cols-3">
         <Reveal className="lg:col-span-2 lg:row-span-2">
           <Calculator />
         </Reveal>
@@ -196,7 +196,7 @@ export function Landing() {
           </Reveal>
         ))}
       </div>
-      <div className="mx-auto mt-4 grid max-w-6xl gap-4 px-6 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mx-auto mt-4 grid grid-cols-1 max-w-6xl gap-4 px-6 sm:grid-cols-2 lg:grid-cols-4">
         {FEATURES.slice(2).map((feature, index) => (
           <Reveal key={feature.title} delay={index * 80} className="h-full">
             <FeatureCard feature={feature} />
@@ -275,7 +275,7 @@ export function Landing() {
 
       {/* Documentation */}
       <Reveal className="mx-auto mt-28 max-w-6xl scroll-mt-24 px-6">
-        <div id="docs" className="grid items-center gap-10 overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.02] p-8 lg:grid-cols-2 lg:p-14">
+        <div id="docs" className="grid grid-cols-1 items-center gap-10 overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.02] p-8 lg:grid-cols-2 lg:p-14">
           <div>
             <p className="font-mono text-xs uppercase tracking-[0.18em] text-amber-300">Documentation</p>
             <h2 className="mt-4 text-3xl font-semibold tracking-[-0.02em] text-zinc-50 sm:text-[40px] sm:leading-[1.1]">
@@ -319,7 +319,7 @@ export function Landing() {
       <Section eyebrow="Where it fits" title="Anything sold by the unit of work">
         <p>The demo renders a fractal because it is honest CPU time that is easy to watch. The same meter applies to:</p>
       </Section>
-      <div className="mx-auto grid max-w-6xl gap-4 px-6 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mx-auto grid grid-cols-1 max-w-6xl gap-4 px-6 sm:grid-cols-2 lg:grid-cols-4">
         {USES.map((use, index) => (
           <Reveal key={use.title} delay={index * 80} className="rounded-2xl border border-white/10 bg-white/[0.025] p-5">
             <h3 className="text-zinc-100">{use.title}</h3>

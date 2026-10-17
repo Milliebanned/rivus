@@ -76,7 +76,7 @@ export function Developers() {
   }
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] lg:gap-10">
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] lg:gap-10">
       <ol className="flex flex-col gap-2">
         {STEPS.map((item, index) => (
           <li key={item.tab}>
